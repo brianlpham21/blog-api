@@ -46,7 +46,7 @@ describe('Blog Posts', function() {
         res.body.should.be.a('object');
         res.body.should.include.keys('id', 'title', 'content', 'author', 'publishDate');
         res.body.id.should.not.be.null;
-
+//
         // res.body.should.deep.equal(Object.assign(newPost, {id: res.body.id}));
       });
   });
