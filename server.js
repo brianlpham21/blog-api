@@ -7,6 +7,11 @@ const morgan = require('morgan');
 
 const blogPostRouter = require('./blogPostRouter');
 
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+
+const {PORT, DATABASE_URL} = require('./config.js');
+
 // logs the http layer
 app.use(morgan('common'));
 
