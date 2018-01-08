@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const router = express.Router();
+// const router = express.Router();
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 // const mongoose = require('mongoose');
 // mongoose.Promise = global.Promise;
 //
-// const {PORT, DATABASE_URL} = require('./config');
+// const {PORT, DATABASE_URL} = require('./config.js');
 // const {BlogPost} = require('./models');
 //
 // app.get('/blog-posts', (req, res) => {
@@ -30,9 +30,9 @@ app.use(bodyParser.json());
 //     .limit(3)
 //     .then(blogposts => {
 //       res.json({
-//         blogposts: blogposts.map(
+//         blogposts: blogpost.map(
 //           (blogpost) => blogpost.serialize()
-//         )
+//         );
 //       });
 //     })
 //     .catch(err => {
@@ -56,7 +56,7 @@ app.use(bodyParser.json());
 //   for (let i = 0; i < requiredFields.length; i++) {
 //     const field = requiredFields[i];
 //     if(!(field in req.body)) {
-//       const message = `Missing \`${field}\` in request body`;
+//       const message = `Missing \`${field}\` in request body`
 //       console.error(message);
 //       return res.status(400).send(message);
 //     }
@@ -94,15 +94,15 @@ app.use(bodyParser.json());
 //   });
 //
 //   BlogPost
-//     .findByIdAndUpdate(req.params.id, {$set: toUpdate})
+//     .findByIdandUpdate(req.params.id, {$set: toUpdate})
 //     .then(blogpost => res.status(204).end())
 //     .catch(err => res.status(500).json({message: 'Internal server error'}));
 // });
 //
 // app.delete('/blog-posts/:id', (req, res) => {
 //   BlogPost
-//     .findByIdAndRemove(req.params.id)
-//     .then(blogpost => res.status(204).end())
+//     .findByIdandRemove(req.params.id)
+//     .then(blogpost => res.status(204.)end())
 //     .catch(err => res.status(500).json({message: 'Internal server error'}));
 // });
 //
@@ -114,7 +114,7 @@ app.use(bodyParser.json());
 //
 // function runServer(databaseUrl = DATABASE_URL, port = PORT) {
 //   return new Promise((resolve, reject) => {
-//     mongoose.connect(databaseUrl, err => {
+//     mongoose.connect(databaseUrl, {UseMongoClient: true}, err => {
 //       if (err) {
 //         return reject(err);
 //       }
