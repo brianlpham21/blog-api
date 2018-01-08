@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const {PORT, DATABASE_URL} = require('./config.js');
+const {PORT, DATABASE_URL} = require('./config');
 const {BlogPost} = require('./models');
 
 app.get('/blog-posts', (req, res) => {
@@ -30,7 +30,7 @@ app.get('/blog-posts', (req, res) => {
     .limit(3)
     .then(blogposts => {
       res.json({
-        blogposts: blogpost.map(
+        blogposts: blogposts.map(
           (blogpost) => blogpost.serialize()
         )
       });
@@ -56,7 +56,7 @@ app.post('/blog-posts', (req, res) => {
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if(!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`
+      const message = `Missing \`${field}\` in request body`;
       console.error(message);
       return res.status(400).send(message);
     }
@@ -94,14 +94,14 @@ app.put('/blog-posts/:id', (req, res) => {
   });
 
   BlogPost
-    .findByIdandUpdate(req.params.id, {$set: toUpdate})
+    .findByIdAndUpdate(req.params.id, {$set: toUpdate})
     .then(blogpost => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
 app.delete('/blog-posts/:id', (req, res) => {
   BlogPost
-    .findByIdandRemove(req.params.id)
+    .findByIdAndRemove(req.params.id)
     .then(blogpost => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });

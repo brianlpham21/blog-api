@@ -81,7 +81,7 @@ const blogPostSchema = mongoose.Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true}
   },
-  publishDate: {type: Number}
+  publishDate: Number
 });
 
 blogPostSchema.virtual('nameString').get(function() {
@@ -89,7 +89,6 @@ blogPostSchema.virtual('nameString').get(function() {
 });
 
 blogPostSchema.methods.serialize = function() {
-
   return {
     id: this._id,
     title: this.title,
@@ -99,6 +98,6 @@ blogPostSchema.methods.serialize = function() {
   };
 };
 
-const BlogPost = mongoose.model('blogpost', blogPostSchema);
+const BlogPost = mongoose.model('BlogPost', blogPostSchema);
 
 module.exports = {BlogPost};
