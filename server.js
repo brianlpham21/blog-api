@@ -10,7 +10,6 @@ const morgan = require('morgan');
 const blogPostRouter = require('./blogPostRouter');
 app.use('/blog-posts', blogPostRouter);
 
-// logs the http layer
 app.use(morgan('common'));
 
 const bodyParser = require('body-parser');
