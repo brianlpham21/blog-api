@@ -6,7 +6,6 @@ const jsonParser = bodyParser.json();
 
 const {BlogPosts} = require('./models');
 
-// create some blog posts so there is some initial data
 BlogPosts.create('First Post', 'I enjoy food.', 'Brian Pham');
 BlogPosts.create('Second Post', 'I enjoy music.', 'Brian Pham');
 BlogPosts.create('Third Post', 'I enjoy football.', 'Brian Pham');
