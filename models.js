@@ -20,13 +20,9 @@ const BlogPosts = {
     return post;
   },
   get: function(id=null) {
-    // if id passed in, retrieve single post,
-    // otherwise send all posts.
     if (id !== null) {
       return this.posts.find(post => post.id === id);
     }
-    // return posts sorted (descending) by
-    // publish date
     return this.posts.sort(function(a, b) {
       return b.publishDate - a.publishDate
     });
