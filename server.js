@@ -1,12 +1,15 @@
 'use strict';
 
 const express = require('express');
-const app = express();
-
-const morgan = require('morgan');
-app.use(morgan('common'));
-
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+
+const {PORT, DATABASE_URL} = require('./config');
+const {BlogPost} = require('./models');
+
+const app = express();
 app.use(bodyParser.json());
 
 // OLD MATERIAL
@@ -49,19 +52,13 @@ app.use(bodyParser.json());
 
 // NEW MATERIAL
 
-const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-
-const {PORT, DATABASE_URL} = require('./config.js');
-const {BlogPost} = require('./models');
-
-app.get('/blog-posts', (req, res) => {
+app.get('/blogposts', (req, res) => {
   BlogPost
     .find()
-    .limit(3)
+    .limit(12)
     .then(blogposts => {
       res.json({
-        blogposts: blogpost.map(
+        blogposts: blogposts.map(
           (blogpost) => blogpost.serialize()
         )
       });
@@ -72,7 +69,7 @@ app.get('/blog-posts', (req, res) => {
     });
 });
 
-app.get('/blog-posts/:id', (req, res) => {
+app.get('/blogposts/:id', (req, res) => {
   BlogPost
     .findById(req.params.id)
     .then(blogpost => res.json(blogpost.serialize()))
@@ -82,7 +79,7 @@ app.get('/blog-posts/:id', (req, res) => {
     });
 });
 
-app.post('/blog-posts', (req, res) => {
+app.post('/blogposts', (req, res) => {
   const requiredFields = ['title', 'content', 'author'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -97,7 +94,10 @@ app.post('/blog-posts', (req, res) => {
     .create({
       title: req.body.title,
       content: req.body.content,
-      author: req.body.author,
+      author:{
+        firstName: req.body.author.split(' ')[0],
+        lastName: req.body.author.split(' ')[1]
+      }
     })
     .then(blogpost => res.status(201).json(blogpost.serialize()))
     .catch(err => {
@@ -106,8 +106,8 @@ app.post('/blog-posts', (req, res) => {
     });
 });
 
-app.put('/blog-posts/:id', (req, res) => {
-  if (!(req.params.id === req.body)) {
+app.put('/blogposts/:id', (req, res) => {
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     const message = (
       `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`
     );
@@ -125,14 +125,20 @@ app.put('/blog-posts/:id', (req, res) => {
   });
 
   BlogPost
-    .findByIdandUpdate(req.params.id, {$set: toUpdate})
+    .findByIdAndUpdate(req.params.id, {$set:{
+      'title': toUpdate.title,
+      'content': toUpdate.content,
+      'author.firstName': toUpdate.author.split(' ')[0],
+      'author.lastName': toUpdate.author.split(' ')[1]
+      }
+    })
     .then(blogpost => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
-app.delete('/blog-posts/:id', (req, res) => {
+app.delete('/blogposts/:id', (req, res) => {
   BlogPost
-    .findByIdandRemove(req.params.id)
+    .findByIdAndRemove(req.params.id)
     .then(blogpost => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
@@ -145,7 +151,7 @@ let server;
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {
   return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, {UseMongoClient: true}, err => {
+    mongoose.connect(databaseUrl, {useMongoClient: true}, err => {
       if (err) {
         return reject(err);
       }

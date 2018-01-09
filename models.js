@@ -68,8 +68,7 @@ const blogPostSchema = mongoose.Schema({
   author: {
     firstName: {type: String, required: true},
     lastName: {type: String, required: true}
-  },
-  publishDate: Number
+  }
 });
 
 blogPostSchema.virtual('nameString').get(function() {
@@ -80,9 +79,8 @@ blogPostSchema.methods.serialize = function() {
   return {
     id: this._id,
     title: this.title,
-    content: this.content,
     author: this.nameString,
-    publishDate: this.publishDate
+    content: this.content,
   };
 };
 
