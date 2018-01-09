@@ -2,7 +2,7 @@ language: node_js
 node_js: node
 deploy:
   provider: heroku
-  app: secure-harbor-58803
+  app: evening-fjord-90706
   on:
     repo: brianlpham21/blog-api
   api_key:
