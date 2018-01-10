@@ -12,50 +12,10 @@ const {BlogPost} = require('./models');
 const app = express();
 app.use(bodyParser.json());
 
-// OLD MATERIAL
-
-// const blogPostRouter = require('./blogPostRouter');
-// app.use('/blog-posts', blogPostRouter);
-
-// let server;
-//
-// function runServer() {
-//   const port = process.env.PORT || 8080;
-//   return new Promise((resolve, reject) => {
-//     server = app.listen(port, () => {
-//       console.log(`Your app is listening on port ${port}`);
-//       resolve(server);
-//     }).on('error', err => {
-//       reject(err);
-//     });
-//   });
-// };
-//
-// function closeServer() {
-//   return new Promise((resolve, reject) => {
-//     console.log('Closing server');
-//     server.close(err => {
-//       if (err) {
-//         reject(err);
-//         return;
-//       }
-//       resolve();
-//     });
-//   });
-// };
-//
-// if(require.main === module) {
-//   runServer().catch(err => console.error(err));
-// };
-//
-// module.exports = {app, runServer, closeServer};
-
-// NEW MATERIAL
-
 app.get('/blogposts', (req, res) => {
   BlogPost
     .find()
-    .limit(12)
+    .limit(10)
     .then(blogposts => {
       res.json({
         blogposts: blogposts.map(
@@ -186,3 +146,41 @@ if(require.main === module) {
 };
 
 module.exports = {app, runServer, closeServer};
+
+// OLD MATERIAL
+
+// const blogPostRouter = require('./blogPostRouter');
+// app.use('/blog-posts', blogPostRouter);
+
+// let server;
+//
+// function runServer() {
+//   const port = process.env.PORT || 8080;
+//   return new Promise((resolve, reject) => {
+//     server = app.listen(port, () => {
+//       console.log(`Your app is listening on port ${port}`);
+//       resolve(server);
+//     }).on('error', err => {
+//       reject(err);
+//     });
+//   });
+// };
+//
+// function closeServer() {
+//   return new Promise((resolve, reject) => {
+//     console.log('Closing server');
+//     server.close(err => {
+//       if (err) {
+//         reject(err);
+//         return;
+//       }
+//       resolve();
+//     });
+//   });
+// };
+//
+// if(require.main === module) {
+//   runServer().catch(err => console.error(err));
+// };
+//
+// module.exports = {app, runServer, closeServer};
