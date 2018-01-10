@@ -95,8 +95,8 @@ app.post('/blogposts', (req, res) => {
       title: req.body.title,
       content: req.body.content,
       author:{
-        firstName: req.body.author.split(' ')[0],
-        lastName: req.body.author.split(' ')[1]
+        firstName: req.body.author.firstName,
+        lastName: req.body.author.lastName
       }
     })
     .then(blogpost => res.status(201).json(blogpost.serialize()))
@@ -128,8 +128,8 @@ app.put('/blogposts/:id', (req, res) => {
     .findByIdAndUpdate(req.params.id, {$set:{
       'title': toUpdate.title,
       'content': toUpdate.content,
-      'author.firstName': toUpdate.author.split(' ')[0],
-      'author.lastName': toUpdate.author.split(' ')[1]
+      'author.firstName': toUpdate.author.firstName,
+      'author.lastName': toUpdate.author.lastName
       }
     })
     .then(blogpost => res.status(204).end())
