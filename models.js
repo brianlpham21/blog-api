@@ -29,7 +29,7 @@ const BlogPost = mongoose.model('BlogPost', blogPostSchema);
 module.exports = {BlogPost};
 
 // OLD MATERIAL
-
+//
 // const uuid = require('uuid');
 //
 // function StorageException(message) {
